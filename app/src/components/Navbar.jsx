@@ -53,17 +53,19 @@ const SearchBar = styled.div`
 
 const Search = styled.input`
   width: 500px;
-  padding: 8px 12px;
+  padding: 10px 15px;
   border: 2px solid #dddddd;
   border-radius: 50px 0px 0px 50px;
-  font-size: 1.1rem;
+  font-size: 1rem;
+  outline: none;
 `;
 
 const Button1 = styled.button`
-  padding: 7px 20px 8px 20px;
+  padding: 10px 20px 8px 20px;
   border: 2px solid #dddddd;
   border-radius: 0px 50px 50px 0px;
   font-size: 1.1rem;
+  cursor: pointer;
 
   &:hover {
     background-color: #e5e4e2;
@@ -76,6 +78,7 @@ const Button2 = styled.button`
   border: 2px solid #dddddd;
   font-size: 1.1rem;
   border-radius: 50px;
+  cursor: pointer;
 
   &:hover {
     background-color: #e5e4e2;

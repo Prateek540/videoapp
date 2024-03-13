@@ -44,6 +44,26 @@ const ChannelInfo = styled.p`
   color: #373737;
 `;
 
+const Buttons = styled.div`
+  display: flex;
+  gap: 10px;
+`;
+
+const JoinButton = styled.button`
+  width: 100px;
+  height: 40px;
+  font-size: 0.9rem;
+  border-radius: 20px;
+  border: none;
+  background-color: #edeade;
+  color: black;
+  cursor: pointer;
+
+  &: hover {
+    opacity: 0.8;
+  }
+`;
+
 const SubscribeButton = styled.button`
   width: 100px;
   height: 40px;
@@ -78,7 +98,10 @@ const Channel = () => {
               @PrateekPathak · 2M subscribers · 10 videos
             </ChannelInfo>
             <ChannelInfo>Hi everyone and welcome to my channel.</ChannelInfo>
-            <SubscribeButton>Subscribe</SubscribeButton>
+            <Buttons>
+              <JoinButton>Join</JoinButton>
+              <SubscribeButton>Subscribe</SubscribeButton>
+            </Buttons>
           </ChannelDetails>
         </ProfileContainer>
         <LineGap />

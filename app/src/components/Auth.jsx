@@ -50,9 +50,10 @@ const SignInForm = styled.form`
 const Input = styled.input`
   width: 300px;
   height: 20px;
-  padding: 6px;
-  border-radius: 5px;
+  padding: 8px;
+  border-radius: 10px;
   border: none;
+  outline: none;
 `;
 
 const Button = styled.button`

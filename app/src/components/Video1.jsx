@@ -3,11 +3,11 @@ import styled from "styled-components";
 import { TiTick } from "react-icons/ti";
 
 const Container = styled.div`
-  width: 400px;
   height: 300px;
   flex: 0 0 calc(25% - 20px);
   margin: 10px;
   box-sizing: border-box;
+  cursor: pointer;
 `;
 
 const VideoImageContainer = styled.div`
