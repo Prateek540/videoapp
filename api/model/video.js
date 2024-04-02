@@ -6,6 +6,12 @@ const videoSchema = mongoose.Schema({
     ref: "User",
     required: true,
   },
+  title: {
+    type: String,
+    min: 6,
+    max: 50,
+    default: "",
+  },
   imgURL: {
     type: String,
     default: "",
@@ -24,15 +30,16 @@ const videoSchema = mongoose.Schema({
   },
   description: {
     type: String,
-    max: 50,
+    min: 6,
+    max: 100,
     default: "",
   },
 });
 
-videoSchema.virtual("videos", {
-  ref: "Video",
+videoSchema.virtual("user", {
+  ref: "User",
   localField: "_id",
-  foreignField: "videoId",
+  foreignField: "userId",
 });
 
 const Video = mongoose.model("Video", videoSchema);

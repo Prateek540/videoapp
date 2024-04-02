@@ -6,9 +6,15 @@ import {
 } from "../controllers/video.js";
 import { authentication } from "../middleware/authentication.js";
 const router = express.Router();
+import { upload } from "../multerConfig.js";
 
 //Create Video
-router.post("/createVideo/:id", authentication, CreateVideo);
+router.post(
+  "/createVideo/:id",
+  upload.fields([{ name: "file1" }, { name: "file2" }]),
+  authentication,
+  CreateVideo
+);
 
 //Get All Videos
 router.get("/getAllVideos", authentication, GetAllVideos);

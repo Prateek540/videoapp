@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { TiTick } from "react-icons/ti";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   display: flex;
@@ -54,19 +55,21 @@ const ViewDetails = styled.div`
 const Video3 = () => {
   return (
     <>
-      <Container>
-        <VideoImageContainer>
-          <VideoImage src="https://www.hubspot.com/hubfs/best-youtube-channels-4.jpg" />
-          <VideoLength>02:50</VideoLength>
-        </VideoImageContainer>
-        <VideoDetails>
-          <VideoTitle>Best Videos</VideoTitle>
-          <VideoAuthor>
-            Prateek Pathak <TiTick />
-          </VideoAuthor>
-          <ViewDetails>20K views · 1 months ago</ViewDetails>
-        </VideoDetails>
-      </Container>
+      <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+        <Container>
+          <VideoImageContainer>
+            <VideoImage src="https://www.hubspot.com/hubfs/best-youtube-channels-4.jpg" />
+            <VideoLength>02:50</VideoLength>
+          </VideoImageContainer>
+          <VideoDetails>
+            <VideoTitle>Best Videos</VideoTitle>
+            <VideoAuthor>
+              Prateek Pathak <TiTick />
+            </VideoAuthor>
+            <ViewDetails>20K views · 1 months ago</ViewDetails>
+          </VideoDetails>
+        </Container>
+      </Link>
     </>
   );
 };

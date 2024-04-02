@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -59,16 +60,18 @@ const Video2 = () => {
   return (
     <>
       <Container>
-        <VideoImageContainer>
-          <VideoImage src="https://www.hubspot.com/hubfs/best-youtube-channels-4.jpg" />
-          <VideoLength>02:50</VideoLength>
-        </VideoImageContainer>
-        <VideoDetails1>
-          <VideoDetails2>
-            <VideoName>Best Videos</VideoName>
-            <ViewDetails>20K views · 1 months ago</ViewDetails>
-          </VideoDetails2>
-        </VideoDetails1>
+        <Link to="/player" style={{ textDecoration: "none", color: "inherit" }}>
+          <VideoImageContainer>
+            <VideoImage src="https://www.hubspot.com/hubfs/best-youtube-channels-4.jpg" />
+            <VideoLength>02:50</VideoLength>
+          </VideoImageContainer>
+          <VideoDetails1>
+            <VideoDetails2>
+              <VideoName>Best Videos</VideoName>
+              <ViewDetails>20K views · 1 months ago</ViewDetails>
+            </VideoDetails2>
+          </VideoDetails1>
+        </Link>
       </Container>
     </>
   );

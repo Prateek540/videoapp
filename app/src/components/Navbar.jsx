@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import styled from "styled-components";
 import { PiVideoBold } from "react-icons/pi";
 import { IoSearchOutline } from "react-icons/io5";
@@ -8,6 +8,8 @@ import { CiBellOn } from "react-icons/ci";
 import { FaRegUser } from "react-icons/fa";
 import { CiMenuBurger } from "react-icons/ci";
 import { Link } from "react-router-dom";
+import { UserContext } from "../UserContext";
+import axios from "axios";
 
 const Nav = styled.nav`
   position: fixed;
@@ -88,10 +90,31 @@ const Button2 = styled.button`
 const UploadBar = styled.div`
   margin-left: 15vw;
   display: flex;
+  align-items: center;
+  justify-content: center;
   gap: 2.5vw;
 `;
 
+const ProfileImage = styled.img`
+  width: 1.8rem;
+  height: 1.8rem;
+  cursor: pointer;
+  border-radius: 50px;
+`;
+
 const Navbar = ({ hoverMenu, setHoverMenu }) => {
+  const { userInfo, setUserInfo } = useContext(UserContext);
+  useEffect(() => {
+    axios
+      .get("/api/user/getAuthStatus")
+      .then((response) => {
+        setUserInfo(response.data);
+      })
+      .catch((error) => {
+        setUserInfo(null);
+      });
+  }, []);
+
   return (
     <>
       <Nav>
@@ -124,17 +147,35 @@ const Navbar = ({ hoverMenu, setHoverMenu }) => {
             </Button2>
           </SearchBar>
           <UploadBar>
-            <RiVideoUploadLine
-              style={{ width: "1.5rem", height: "1.5rem", cursor: "pointer" }}
-            />
+            <Link to="/upload" style={{ color: "inherit" }}>
+              <RiVideoUploadLine
+                style={{
+                  width: "1.5rem",
+                  height: "1.5rem",
+                  cursor: "pointer",
+                }}
+              />
+            </Link>
+
             <CiBellOn
               style={{ width: "1.5rem", height: "1.5rem", cursor: "pointer" }}
             />
-            <Link to="/profile" style={{ color: "black" }}>
-              <FaRegUser
-                style={{ width: "1.5rem", height: "1.5rem", cursor: "pointer" }}
-              />
-            </Link>
+            {!userInfo && (
+              <Link to="/auth" style={{ color: "inherit" }}>
+                <FaRegUser
+                  style={{
+                    width: "1.5rem",
+                    height: "1.5rem",
+                    cursor: "pointer",
+                  }}
+                />
+              </Link>
+            )}
+            {userInfo && (
+              <Link to="/profile" style={{ color: "inherit" }}>
+                <ProfileImage src="https://prateek540.github.io/portfolio/static/media/Profile.2496924ff18c9cfe60a8.jpg" />
+              </Link>
+            )}
           </UploadBar>
         </Container>
       </Nav>

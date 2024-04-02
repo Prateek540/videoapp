@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { TiTick } from "react-icons/ti";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   height: 300px;
@@ -71,21 +72,22 @@ const Video1 = () => {
   return (
     <>
       <Container>
-        <VideoImageContainer>
-          <VideoImage src="https://www.hubspot.com/hubfs/best-youtube-channels-4.jpg" />
-          <VideoLength>02:50</VideoLength>
-        </VideoImageContainer>
-        <VideoDetails1>
-          <ProfileImage src="https://prateek540.github.io/portfolio/static/media/Profile.2496924ff18c9cfe60a8.jpg" />
-          <VideoDetails2>
-            <VideoName>Best Videos</VideoName>
-            <AuthorName>
-              Prateek Pathak <TiTick />
-            </AuthorName>
-            <ViewDetails>20K views · 1 months ago</ViewDetails>
-          </VideoDetails2>
-        </VideoDetails1>
-        <VideoDetails2></VideoDetails2>
+        <Link to="/player" style={{ textDecoration: "none", color: "inherit" }}>
+          <VideoImageContainer>
+            <VideoImage src="https://www.hubspot.com/hubfs/best-youtube-channels-4.jpg" />
+            <VideoLength>02:50</VideoLength>
+          </VideoImageContainer>
+          <VideoDetails1>
+            <ProfileImage src="https://prateek540.github.io/portfolio/static/media/Profile.2496924ff18c9cfe60a8.jpg" />
+            <VideoDetails2>
+              <VideoName>Best Videos</VideoName>
+              <AuthorName>
+                Prateek Pathak <TiTick />
+              </AuthorName>
+              <ViewDetails>20K views · 1 months ago</ViewDetails>
+            </VideoDetails2>
+          </VideoDetails1>
+        </Link>
       </Container>
     </>
   );

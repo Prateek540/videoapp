@@ -48,17 +48,19 @@ const userSchema = mongoose.Schema(
   { timeStamps: true }
 );
 
-userSchema.virtual("videos", {
-  ref: "Video",
-  localField: "_id",
-  foreignField: "userId",
-});
+userSchema.statics.isValidFile = function (file) {
+  const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
+  const maxFileSize = 1024 * 1024 * 5; // 5MB
 
-userSchema.virtual("comments", {
-  ref: "Comment",
-  localField: "_id",
-  foreignField: "userId",
-});
+  return allowedTypes.includes(file.mimetype) && file.size <= maxFileSize;
+};
+
+userSchema.statics.isValidVideo = function (file) {
+  const allowedTypes = ["video/mp4", "video/mpeg", "video/quicktime"];
+  const maxFileSize = 1024 * 1024 * 10; // 10MB
+
+  return allowedTypes.includes(file.mimetype) && file.size <= maxFileSize;
+};
 
 const User = mongoose.model("User", userSchema);
 

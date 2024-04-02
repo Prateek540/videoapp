@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import { IoMdHome } from "react-icons/io";
 import { SiYoutubeshorts } from "react-icons/si";
@@ -25,6 +25,10 @@ import { IoSettings } from "react-icons/io5";
 import { FaFlag } from "react-icons/fa";
 import { IoIosHelpCircle } from "react-icons/io";
 import { MdFeedback } from "react-icons/md";
+import { Link, useNavigate } from "react-router-dom";
+import { IoLogOut } from "react-icons/io5";
+import { UserContext } from "../UserContext";
+import axios from "axios";
 
 const Menu = styled.div`
   position: fixed;
@@ -81,6 +85,21 @@ const HeadingGap = styled.hr`
 `;
 
 const LeftMenu = ({ hoverMenu }) => {
+  const { userInfo, setUserInfo } = useContext(UserContext);
+  const nav = useNavigate();
+
+  const logoutHandler = () => {
+    axios
+      .post("/api/auth/logout")
+      .then((response) => {
+        setUserInfo(null);
+        nav("/");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <>
       <Menu style={{ display: `${hoverMenu ? "" : "none"}` }}>
@@ -90,7 +109,14 @@ const LeftMenu = ({ hoverMenu }) => {
               <ItemIcon>
                 <IoMdHome />
               </ItemIcon>
-              <ItemHeading>Home</ItemHeading>
+              <ItemHeading>
+                <Link
+                  to="/"
+                  style={{ textDecoration: "none", color: "inherit" }}
+                >
+                  Home
+                </Link>
+              </ItemHeading>
             </Item>
             <Item>
               <ItemIcon>
@@ -112,7 +138,14 @@ const LeftMenu = ({ hoverMenu }) => {
               <ItemIcon>
                 <FaUser />
               </ItemIcon>
-              <ItemHeading>Your channel</ItemHeading>
+              <ItemHeading>
+                <Link
+                  to="/profile"
+                  style={{ textDecoration: "none", color: "inherit" }}
+                >
+                  Your channel
+                </Link>
+              </ItemHeading>
             </Item>
             <Item>
               <ItemIcon>
@@ -138,6 +171,14 @@ const LeftMenu = ({ hoverMenu }) => {
               </ItemIcon>
               <ItemHeading>Liked Videos</ItemHeading>
             </Item>
+            {userInfo && (
+              <Item onClick={logoutHandler}>
+                <ItemIcon>
+                  <IoLogOut />
+                </ItemIcon>
+                <ItemHeading>Logout</ItemHeading>
+              </Item>
+            )}
           </List>
           <HeadingGap />
           <Heading>Subscriptions</Heading>

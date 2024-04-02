@@ -1,4 +1,19 @@
 import User from "../model/user.js";
+import jwt from "jsonwebtoken";
+
+//Get Authentication status of user
+
+export const GetAuthStatus = async (req, res) => {
+  try {
+    const { token } = req.cookies;
+    jwt.verify(token, process.env.SECRET, {}, (err, info) => {
+      if (err) return res.status(200).json(null);
+      res.status(200).json(info);
+    });
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
 
 //Get all Users
 
@@ -24,11 +39,11 @@ export const GetAllUsers = async (req, res) => {
   }
 };
 
-//Get user by id
+//Get user by username
 
 export const GetUserById = async (req, res) => {
   try {
-    const user = await User.findOne({ _id: req.params.id });
+    const user = await User.findOne({ username: req.params.username });
     const { password, __v, ...other } = user._doc;
     res.status(200).json(other);
   } catch (error) {
