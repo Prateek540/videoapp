@@ -78,8 +78,8 @@ const Label = styled.label``;
 const Upload = () => {
   const { userInfo } = useContext(UserContext);
   const nav = useNavigate();
-  const [file1, setFile1] = useState("");
-  const [file2, setFile2] = useState("");
+  const [file1, setFile1] = useState(null);
+  const [file2, setFile2] = useState(null);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [error, setError] = useState({
@@ -124,9 +124,9 @@ const Upload = () => {
 
     const isValidVideo = (file) => {
       const allowedTypes = ["video/mp4", "video/mpeg", "video/quicktime"];
-      const maxFileSize = 1024 * 1024 * 10; // 10MB
+      const maxFileSize = 1024 * 1024 * 100; // 100MB
 
-      return allowedTypes.includes(file.mimetype) && file.size <= maxFileSize;
+      return allowedTypes.includes(file.type) && file.size <= maxFileSize;
     };
 
     if (!data.file1) {
@@ -140,7 +140,7 @@ const Upload = () => {
       error.file2 = "Please upload video";
     } else if (!isValidVideo(data.file2)) {
       error.file2 =
-        "Only .mp4, .mpeg and .png format allowed with file size less than 5 mb";
+        "Only .mp4, .mpeg  format allowed with file size less than 100 mb";
     }
 
     if (!data.title) {
@@ -166,8 +166,8 @@ const Upload = () => {
     }
 
     axios
-      .post(`/api/video/createVideo/${userInfo._id}`, data, {
-        headers: { "Content-Type": "application/json" },
+      .post(`/api/video/createVideo/${userInfo.id}`, data, {
+        headers: { "Content-Type": "multipart/form-data" },
         credentials: "include",
       })
       .then((response) => {
@@ -176,6 +176,7 @@ const Upload = () => {
       .catch((err) => {
         error.server = "Server error please try again";
         setError(error);
+        console.log(err);
       });
   };
 
@@ -204,7 +205,7 @@ const Upload = () => {
               name="file2"
               id="file2"
               onChange={(e) => setFile2(e.target.files[0])}
-              accept=".jpg,.jpeg,.png"
+              accept=".mp4,.mpeg"
               style={{ display: "none" }}
             />
             <Label htmlFor="file2" style={{ cursor: "pointer" }}>

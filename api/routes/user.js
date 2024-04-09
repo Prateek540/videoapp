@@ -2,7 +2,7 @@ import express from "express";
 import {
   GetAllUsers,
   GetAuthStatus,
-  GetUserById,
+  getUserByUsername,
 } from "../controllers/user.js";
 import { authentication } from "../middleware/authentication.js";
 const router = express.Router();
@@ -14,6 +14,6 @@ router.get("/getAuthStatus", GetAuthStatus);
 router.get("/getAllUsers", authentication, GetAllUsers);
 
 //get user by id
-router.get("/getUserById/:username", authentication, GetUserById);
+router.get("/getUserByUsername/:username", authentication, getUserByUsername);
 
 export default router;

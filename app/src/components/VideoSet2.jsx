@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Video2 from "./Video2";
+import axios from "axios";
 
 const Container = styled.div`
   display: flex;
@@ -9,7 +10,18 @@ const Container = styled.div`
   flex-wrap: wrap;
 `;
 
-const VideoSet2 = () => {
+const VideoSet2 = ({ id }) => {
+  const [video, setVideo] = useState({});
+  useEffect(() => {
+    axios
+      .get(`/api/video/getAllVideosUser/${id}`, {}, { credentials: "include" })
+      .then((response) => {
+        setVideo(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
   return (
     <>
       <Container>

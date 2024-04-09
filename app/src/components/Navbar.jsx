@@ -172,8 +172,8 @@ const Navbar = ({ hoverMenu, setHoverMenu }) => {
               </Link>
             )}
             {userInfo && (
-              <Link to="/profile" style={{ color: "inherit" }}>
-                <ProfileImage src="https://prateek540.github.io/portfolio/static/media/Profile.2496924ff18c9cfe60a8.jpg" />
+              <Link to={`/profile/me`} style={{ color: "inherit" }}>
+                <ProfileImage src={`/${userInfo.profilePicture}`} />
               </Link>
             )}
           </UploadBar>

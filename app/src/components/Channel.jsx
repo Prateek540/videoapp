@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import { TiTick } from "react-icons/ti";
+import { UserContext } from "../UserContext";
+import { useParams } from "react-router-dom";
+import ChannelOther from "./ChannelOther";
+import VideoSet2 from "./VideoSet2";
 
 const Container = styled.div`
   margin-top: 60px;
@@ -84,28 +88,36 @@ const LineGap = styled.hr`
 `;
 
 const Channel = () => {
+  const { userInfo } = useContext(UserContext);
+  const { username } = useParams();
   return (
     <>
-      <Container>
-        <CoverImage src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/youtube-cover-photo-design-template-68e134bfc77fb52ab8c44d7a6f1538c9_screen.jpg?ts=1609783467" />
-        <ProfileContainer>
-          <ProfileImage src="https://prateek540.github.io/portfolio/static/media/Profile.2496924ff18c9cfe60a8.jpg" />
-          <ChannelDetails>
-            <ChannelName>
-              Prateek Pathak <TiTick />
-            </ChannelName>
-            <ChannelInfo>
-              @PrateekPathak · 2M subscribers · 10 videos
-            </ChannelInfo>
-            <ChannelInfo>Hi everyone and welcome to my channel.</ChannelInfo>
-            <Buttons>
-              <JoinButton>Join</JoinButton>
-              <SubscribeButton>Subscribe</SubscribeButton>
-            </Buttons>
-          </ChannelDetails>
-        </ProfileContainer>
-        <LineGap />
-      </Container>
+      {username === "me" && (
+        <>
+          <Container>
+            <CoverImage src={`/${userInfo.coverPicture}`} />
+            <ProfileContainer>
+              <ProfileImage src={`/${userInfo.profilePicture}`} />
+              <ChannelDetails>
+                <ChannelName>
+                  {userInfo.username} <TiTick />
+                </ChannelName>
+                <ChannelInfo>
+                  @{userInfo.email} · 2M subscribers · 10 videos
+                </ChannelInfo>
+                <ChannelInfo>{userInfo.description}</ChannelInfo>
+                <Buttons>
+                  <JoinButton>Customise</JoinButton>
+                  <SubscribeButton>Manage</SubscribeButton>
+                </Buttons>
+              </ChannelDetails>
+            </ProfileContainer>
+            <LineGap />
+          </Container>
+          <VideoSet2 id={userInfo.id} />
+        </>
+      )}
+      {username !== "me" && <ChannelOther />}
     </>
   );
 };

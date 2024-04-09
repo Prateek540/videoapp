@@ -41,7 +41,7 @@ export const GetAllUsers = async (req, res) => {
 
 //Get user by username
 
-export const GetUserById = async (req, res) => {
+export const getUserByUsername = async (req, res) => {
   try {
     const user = await User.findOne({ username: req.params.username });
     const { password, __v, ...other } = user._doc;

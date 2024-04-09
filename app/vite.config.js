@@ -7,7 +7,9 @@ export default defineConfig({
     proxy: {
       "/api": {
         target: "http://localhost:8000",
-        secure: false,
+      },
+      "/assets": {
+        target: "http://localhost:8000",
       },
     },
   },

@@ -217,7 +217,7 @@ const Auth = () => {
 
     if (data.emailR === "") {
       error.emailR = "Email is empty";
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(data.email)) {
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(data.emailR)) {
       error.emailR = "Email is incorrect";
     }
 
@@ -240,7 +240,7 @@ const Auth = () => {
 
     axios
       .post("/api/auth/register", data, {
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "multipart/form-data" },
         credentials: "include",
       })
       .then((response) => {
@@ -251,8 +251,8 @@ const Auth = () => {
         error.server = "Server error please try again.";
         setSignupError(error);
       });
-    setFile1("");
-    setFile2("");
+    setFile1(null);
+    setFile2(null);
     setUsername("");
     setEmailR("");
     setPasswordR("");

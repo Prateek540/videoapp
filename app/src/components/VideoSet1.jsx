@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Video1 from "./Video1";
+import axios from "axios";
 
 const Container = styled.div`
   display: flex;
@@ -10,25 +11,24 @@ const Container = styled.div`
 `;
 
 const VideoSet1 = () => {
+  const [video, setVideo] = useState([]);
+  useEffect(() => {
+    axios
+      .get("/api/video/getAllVideos")
+      .then((response) => {
+        setVideo(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+  console.log(video);
   return (
     <>
       <Container>
-        <Video1 />
-        <Video1 />
-        <Video1 />
-        <Video1 />
-        <Video1 />
-        <Video1 />
-        <Video1 />
-        <Video1 />
-        <Video1 />
-        <Video1 />
-        <Video1 />
-        <Video1 />
-        <Video1 />
-        <Video1 />
-        <Video1 />
-        <Video1 />
+        {video.map((vid) => {
+          return <Video1 key={vid._id} />;
+        })}
       </Container>
     </>
   );

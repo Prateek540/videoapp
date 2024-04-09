@@ -12,7 +12,7 @@ export const CreateVideo = async (req, res) => {
       return res.status(400).json({ error: "No file uploaded" });
     }
 
-    if (!User.isValidFile(file) && !User.isValidVideo) {
+    if (!User.isValidFile(file) && !User.isValidVideo(videofile)) {
       return res.status(400).json({ error: "Invalid file type or size." });
     }
 
@@ -38,6 +38,22 @@ export const CreateVideo = async (req, res) => {
 export const GetAllVideos = async (req, res) => {
   try {
     const videos = await Video.find();
+    const updatedVideos = [];
+    videos.map((video) => {
+      const { __v, ...other } = video._doc;
+      updatedVideos.push(other);
+    });
+    res.status(200).send(updatedVideos);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+//Get all videos of a user by id
+
+export const GetAllVideosUser = async (req, res) => {
+  try {
+    const videos = await Video.find({ userId: req.params.id });
     const updatedVideos = [];
     videos.map((video) => {
       const { __v, ...other } = video._doc;

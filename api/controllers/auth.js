@@ -21,13 +21,13 @@ export const Register = async (req, res) => {
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(
-      req.body.password.toString(),
+      req.body.passwordR.toString(),
       salt
     );
 
     const newUser = new User({
       username: req.body.username,
-      email: req.body.email,
+      email: req.body.emailR,
       password: hashedPassword,
       profilePicture: path1,
       coverPicture: path2,
@@ -36,7 +36,14 @@ export const Register = async (req, res) => {
     await newUser.save();
 
     jwt.sign(
-      { id: newUser._id, username: req.body.username },
+      {
+        id: newUser._id,
+        username: req.body.username,
+        email: req.body.emailR,
+        profilePicture: newUser.profilePicture,
+        coverPicture: newUser.coverPicture,
+        description: req.body.description,
+      },
       process.env.SECRET,
       {},
       (err, token) => {
@@ -44,6 +51,10 @@ export const Register = async (req, res) => {
         res.cookie("token", token).status(200).send({
           id: newUser._id,
           username: req.body.username,
+          email: req.body.emailR,
+          profilePicture: newUser.profilePicture,
+          coverPicture: newUser.coverPicture,
+          description: req.body.description,
         });
       }
     );
@@ -68,7 +79,14 @@ export const Login = async (req, res) => {
       return res.status(404).send("Password is incorrect");
     }
     jwt.sign(
-      { id: user._id, username: user.username },
+      {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+        profilePicture: user.profilePicture,
+        coverPicture: user.coverPicture,
+        description: user.description,
+      },
       process.env.SECRET,
       {},
       (err, token) => {
@@ -76,6 +94,10 @@ export const Login = async (req, res) => {
         res.cookie("token", token).status(200).send({
           id: user._id,
           username: user.username,
+          email: user.email,
+          profilePicture: user.profilePicture,
+          coverPicture: user.coverPicture,
+          description: user.description,
         });
       }
     );

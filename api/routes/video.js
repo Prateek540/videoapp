@@ -2,6 +2,7 @@ import express from "express";
 import {
   CreateVideo,
   GetAllVideos,
+  GetAllVideosUser,
   GetVideoById,
 } from "../controllers/video.js";
 import { authentication } from "../middleware/authentication.js";
@@ -11,13 +12,17 @@ import { upload } from "../multerConfig.js";
 //Create Video
 router.post(
   "/createVideo/:id",
-  upload.fields([{ name: "file1" }, { name: "file2" }]),
   authentication,
+  upload.fields([{ name: "file1" }, { name: "file2" }]),
   CreateVideo
 );
 
 //Get All Videos
-router.get("/getAllVideos", authentication, GetAllVideos);
+router.get("/getAllVideos", GetAllVideos);
+
+//Get All Videos of user by id
+
+router.get("/getAllVideosUser/:id", authentication, GetAllVideosUser);
 
 //Get video by id
 router.get("/getVideoById/:id", authentication, GetVideoById);

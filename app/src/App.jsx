@@ -27,7 +27,7 @@ function App() {
           element={userInfo ? <Upload /> : <Authenticate />}
         />
         <Route
-          path="/profile"
+          path="/profile/:username"
           element={userInfo ? <Profile /> : <Authenticate />}
         />
         <Route path="/player" element={<Player />} />
