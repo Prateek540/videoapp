@@ -11,35 +11,23 @@ const Container = styled.div`
 `;
 
 const VideoSet2 = ({ id }) => {
-  const [video, setVideo] = useState({});
+  const [video, setVideo] = useState([]);
   useEffect(() => {
     axios
-      .get(`/api/video/getAllVideosUser/${id}`, {}, { credentials: "include" })
+      .get(`/api/video/getAllVideosUser/${id}`)
       .then((response) => {
         setVideo(response.data);
       })
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [id]);
   return (
     <>
       <Container>
-        <Video2 />
-        <Video2 />
-        <Video2 />
-        <Video2 />
-        <Video2 />
-        <Video2 />
-        <Video2 />
-        <Video2 />
-        <Video2 />
-        <Video2 />
-        <Video2 />
-        <Video2 />
-        <Video2 />
-        <Video2 />
-        <Video2 />
+        {video.map((vid) => {
+          return <Video2 key={vid._id} video={vid} />;
+        })}
       </Container>
     </>
   );

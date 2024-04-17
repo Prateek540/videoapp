@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import Video1 from "./Video1";
+import Comment from "./Comment";
 import axios from "axios";
 
 const Container = styled.div`
   display: flex;
-  padding: 20px;
-  flex-wrap: wrap;
-  margin-top: 60px;
+  margin-top: 10px;
+  gap: 20px;
+  flex-direction: column;
 `;
 
-const VideoSet1 = () => {
-  const [video, setVideo] = useState([]);
+const CommentList = ({ id }) => {
+  const [comments, setComments] = useState([]);
   useEffect(() => {
     axios
-      .get("/api/video/getAllVideos")
+      .get(`/api/comment/getComment/${id}`)
       .then((response) => {
-        setVideo(response.data);
+        setComments(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -25,12 +25,12 @@ const VideoSet1 = () => {
   return (
     <>
       <Container>
-        {video.map((vid) => {
-          return <Video1 key={vid._id} video={vid} />;
+        {comments.map((comment) => {
+          return <Comment key={comment._id} comment={comment} />;
         })}
       </Container>
     </>
   );
 };
 
-export default VideoSet1;
+export default CommentList;

@@ -37,7 +37,7 @@ export const CreateVideo = async (req, res) => {
 
 export const GetAllVideos = async (req, res) => {
   try {
-    const videos = await Video.find();
+    const videos = await Video.find().populate("userId");
     const updatedVideos = [];
     videos.map((video) => {
       const { __v, ...other } = video._doc;
@@ -53,7 +53,9 @@ export const GetAllVideos = async (req, res) => {
 
 export const GetAllVideosUser = async (req, res) => {
   try {
-    const videos = await Video.find({ userId: req.params.id });
+    const videos = await Video.find({ userId: req.params.id }).populate(
+      "userId"
+    );
     const updatedVideos = [];
     videos.map((video) => {
       const { __v, ...other } = video._doc;

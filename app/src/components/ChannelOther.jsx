@@ -91,11 +91,7 @@ const ChannelOther = () => {
   const [user, setUser] = useState({});
   useEffect(() => {
     axios
-      .get(
-        `/api/user/getUserByUsername/${username}`,
-        {},
-        { credentials: "include" }
-      )
+      .get(`/api/user/getUserByUsername/${username}`)
       .then((response) => {
         setUser(response.data);
       })

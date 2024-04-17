@@ -1,14 +1,18 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
-import video from "../assets/Sample.mp4";
 import { TiTick } from "react-icons/ti";
 import { PiShareFat } from "react-icons/pi";
 import { MdOutlineFileDownload } from "react-icons/md";
 import { AiOutlineLike } from "react-icons/ai";
 import { AiOutlineDislike } from "react-icons/ai";
+import { FaRegUser } from "react-icons/fa";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
-import Comment from "./Comment";
 import RecommendSet from "./RecommendSet";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
+import VideoPlayer from "./VideoPlayer";
+import { UserContext } from "../UserContext";
+import CommentList from "./CommentList";
 
 const Container = styled.div`
   display: flex;
@@ -21,16 +25,6 @@ const VideoContainer = styled.div`
   flex-direction: column;
   gap: 10px;
 `;
-
-const Video = styled.video`
-  width: 65vw;
-  height: 72vh;
-  border-radius: 10px;
-  background-color: black;
-  object-fit: cover;
-`;
-
-const Source = styled.source``;
 
 const VideoTitle = styled.h1`
   font-size: 1.6rem;
@@ -173,28 +167,58 @@ const Input = styled.input`
   outline: none;
 `;
 
-const CommentList = styled.div`
-  display: flex;
-  margin-top: 10px;
-  gap: 20px;
-  flex-direction: column;
-`;
+const SourcePlayer = () => {
+  const { id } = useParams();
+  const [video, setVideo] = useState({});
+  const [text, setText] = useState("");
+  const { userInfo } = useContext(UserContext);
+  const nav = useNavigate();
 
-function SourcePlayer() {
+  const commentHandler = () => {
+    if (userInfo === null) {
+      nav("/auth");
+    }
+    if (text === "") {
+      return;
+    }
+    axios
+      .post(
+        `/api/comment/createComment/${userInfo?.id}/${id}`,
+        { text },
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      )
+      .then(() => {
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  useEffect(() => {
+    axios
+      .get(`/api/video/getVideoById/${id}`)
+      .then((response) => {
+        setVideo(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
   return (
     <>
       <Container>
         <VideoContainer>
-          <Video controls>
-            <Source src={video} type="video/mp4" />
-          </Video>
-          <VideoTitle>My First Video !!!</VideoTitle>
+          {video.videoURL && <VideoPlayer videoURL={video.videoURL} />}
+          <VideoTitle>{video.title}</VideoTitle>
           <AuthorTitle>
             <DetailTitle>
-              <ProfileImage src="https://prateek540.github.io/portfolio/static/media/Profile.2496924ff18c9cfe60a8.jpg" />
+              <ProfileImage src={`/${video.userId?.profilePicture}`} />
               <Author>
                 <AuthorName>
-                  Prateek Pathak <TiTick />
+                  {video.userId?.username} <TiTick />
                 </AuthorName>
                 <AuthorDetails>2M subscribers</AuthorDetails>
               </Author>
@@ -232,36 +256,33 @@ function SourcePlayer() {
           </AuthorTitle>
           <VideoDetail>
             <VideoDetailHeading>2M views 4 years ago</VideoDetailHeading>
-            <VideoDetailPara>
-              #video #funny This video is all about my channel Prateek Pathak.
-              Please like share and subscribe to my channel.
-            </VideoDetailPara>
+            <VideoDetailPara>{video.description}</VideoDetailPara>
           </VideoDetail>
           <CommentContainer>
             <CommentHeading>200 Comments</CommentHeading>
             <CommentInput>
-              <ProfileImage src="https://prateek540.github.io/portfolio/static/media/Profile.2496924ff18c9cfe60a8.jpg" />
-              <Input type="text" />
-              <JoinButton>Comment</JoinButton>
+              {userInfo && (
+                <ProfileImage src={`/${userInfo?.profilePicture}`} />
+              )}
+              {!userInfo && (
+                <FaRegUser
+                  style={{
+                    width: "1.5rem",
+                    height: "1.5rem",
+                    cursor: "pointer",
+                  }}
+                />
+              )}
+              <Input type="text" onChange={(e) => setText(e.target.value)} />
+              <JoinButton onClick={commentHandler}>Comment</JoinButton>
             </CommentInput>
-            <CommentList>
-              <Comment />
-              <Comment />
-              <Comment />
-              <Comment />
-              <Comment />
-              <Comment />
-              <Comment />
-              <Comment />
-              <Comment />
-              <Comment />
-            </CommentList>
+            {video._id && <CommentList id={video._id} />}
           </CommentContainer>
         </VideoContainer>
-        <RecommendSet />
+        {video.userId?._id && <RecommendSet id={video.userId?._id} />}
       </Container>
     </>
   );
-}
+};
 
 export default SourcePlayer;

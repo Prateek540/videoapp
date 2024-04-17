@@ -4,16 +4,15 @@ import {
   GetAuthStatus,
   getUserByUsername,
 } from "../controllers/user.js";
-import { authentication } from "../middleware/authentication.js";
 const router = express.Router();
 
 //Get profile authentication status
 router.get("/getAuthStatus", GetAuthStatus);
 
 //Get All users
-router.get("/getAllUsers", authentication, GetAllUsers);
+router.get("/getAllUsers", GetAllUsers);
 
-//get user by id
-router.get("/getUserByUsername/:username", authentication, getUserByUsername);
+//get user by username
+router.get("/getUserByUsername/:username", getUserByUsername);
 
 export default router;

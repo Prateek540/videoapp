@@ -52,19 +52,22 @@ const ViewDetails = styled.div`
   color: #373737;
 `;
 
-const Video3 = () => {
+const Video3 = ({ video }) => {
   return (
     <>
-      <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+      <Link
+        to={`/player/${video._id}`}
+        style={{ textDecoration: "none", color: "inherit" }}
+      >
         <Container>
           <VideoImageContainer>
-            <VideoImage src="https://www.hubspot.com/hubfs/best-youtube-channels-4.jpg" />
+            <VideoImage src={`/${video.imgURL}`} />
             <VideoLength>02:50</VideoLength>
           </VideoImageContainer>
           <VideoDetails>
-            <VideoTitle>Best Videos</VideoTitle>
+            <VideoTitle>{video.title}</VideoTitle>
             <VideoAuthor>
-              Prateek Pathak <TiTick />
+              {video.userId.username} <TiTick />
             </VideoAuthor>
             <ViewDetails>20K views · 1 months ago</ViewDetails>
           </VideoDetails>

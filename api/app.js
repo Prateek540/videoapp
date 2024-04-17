@@ -5,6 +5,7 @@ import * as url from "url";
 import authRoute from "./routes/auth.js";
 import userRoute from "./routes/user.js";
 import videoRoute from "./routes/video.js";
+import commentRoute from "./routes/comment.js";
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
 
@@ -24,5 +25,6 @@ app.use(cookieParser());
 app.use("/api/auth", authRoute);
 app.use("/api/user", userRoute);
 app.use("/api/video", videoRoute);
+app.use("/api/comment", commentRoute);
 
 export { app };

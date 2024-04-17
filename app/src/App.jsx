@@ -30,7 +30,7 @@ function App() {
           path="/profile/:username"
           element={userInfo ? <Profile /> : <Authenticate />}
         />
-        <Route path="/player" element={<Player />} />
+        <Route path="/player/:id" element={<Player />} />
       </Routes>
     </>
   );

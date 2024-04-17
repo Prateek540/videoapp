@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Video3 from "./Video3";
+import axios from "axios";
 
 const Container = styled.div`
   display: flex;
@@ -8,20 +9,25 @@ const Container = styled.div`
   flex-direction: column;
 `;
 
-const RecommendSet = () => {
+const RecommendSet = ({ id }) => {
+  const [videos, setVideos] = useState([]);
+  useEffect(() => {
+    axios
+      .get(`/api/video/getAllVideosUser/${id}`)
+      .then((response) => {
+        setVideos(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [id]);
+
   return (
     <>
       <Container>
-        <Video3 />
-        <Video3 />
-        <Video3 />
-        <Video3 />
-        <Video3 />
-        <Video3 />
-        <Video3 />
-        <Video3 />
-        <Video3 />
-        <Video3 />
+        {videos.map((video) => {
+          return <Video3 key={video._id} video={video} />;
+        })}
       </Container>
     </>
   );

@@ -22,9 +22,9 @@ router.get("/getAllVideos", GetAllVideos);
 
 //Get All Videos of user by id
 
-router.get("/getAllVideosUser/:id", authentication, GetAllVideosUser);
+router.get("/getAllVideosUser/:id", GetAllVideosUser);
 
 //Get video by id
-router.get("/getVideoById/:id", authentication, GetVideoById);
+router.get("/getVideoById/:id", GetVideoById);
 
 export default router;

@@ -90,9 +90,10 @@ const LineGap = styled.hr`
 const Channel = () => {
   const { userInfo } = useContext(UserContext);
   const { username } = useParams();
+
   return (
     <>
-      {username === "me" && (
+      {username === userInfo.username && (
         <>
           <Container>
             <CoverImage src={`/${userInfo.coverPicture}`} />
@@ -114,10 +115,10 @@ const Channel = () => {
             </ProfileContainer>
             <LineGap />
           </Container>
-          <VideoSet2 id={userInfo.id} />
         </>
       )}
-      {username !== "me" && <ChannelOther />}
+      {username === userInfo.username && <VideoSet2 id={userInfo.id} />}
+      {username !== userInfo.username && <ChannelOther />}
     </>
   );
 };

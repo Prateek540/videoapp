@@ -172,7 +172,10 @@ const Navbar = ({ hoverMenu, setHoverMenu }) => {
               </Link>
             )}
             {userInfo && (
-              <Link to={`/profile/me`} style={{ color: "inherit" }}>
+              <Link
+                to={`/profile/${userInfo.username}`}
+                style={{ color: "inherit" }}
+              >
                 <ProfileImage src={`/${userInfo.profilePicture}`} />
               </Link>
             )}
